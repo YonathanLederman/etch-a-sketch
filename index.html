@@ -8,10 +8,18 @@
 
 </head>
 <body>
-    <div class="container"></div>
+    <div class='main'>
+        <div class="header">
+            <h1>Etch a Sketch</h1>
+            <button>New Grid</button>
+        </div>
+        <div class="container"></div>
+    </div>
+
 
     <script>
         const container = document.querySelector('.container');
+        const btn = document.querySelector('button');
 
 
         function makeRows(rows, cols) {
@@ -28,7 +36,12 @@
         container.addEventListener('mouseover', changeBackground);
 
         function changeBackground(e) {
-            e.target.style.backgroundColor = getRandomColor();
+            //console.log(typeof e.target.className)
+            if(e.target.className == 'container') {
+                e.target.style.backgroundColor = 'white';
+            } else {
+                e.target.style.backgroundColor = getRandomColor();
+            }
         }
 
         function getRandomColor() {
@@ -38,6 +51,23 @@
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
+        }
+
+        btn.addEventListener('click', () => {
+            let size = +prompt('Enter a number between 16 and 64:');
+            if(size < 16 || size > 64) {
+                alert('Invalid number :/ 16-64');
+            } else {
+                resetGrid();
+                makeRows(size,size);
+            }
+        });
+
+        function resetGrid() {
+            const grid = Array.from(container.childNodes);
+            grid.forEach(e => {
+                container.removeChild(e);
+            })
         }
 
 
